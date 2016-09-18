@@ -2,14 +2,14 @@
 var baseBet = Math.round(5/0.13);;    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
 
 // -----------
-var skip1 = 0;    // after second loss
-var skip2 = 1;    // after third loss
-var skip3 = 1;    // after fourth loss
-var skip4 = 1;    // after fifth loss
-var skip5 = 0;    // after sixth loss
+// Number of games skipped after X losses
+var skip1 = 0;    // after third loss
+var skip2 = 1;    // after fourth loss
+var skip3 = 1;    // after fifth loss
+var skip4 = 3;    // after sixth loss
+var skip5 = 0;    // after seventh loss
 var skip6 = 1;    // after eighth loss
-var skip7 = 2;    // skip X games afterwards. This means the script will bet once and then skip X games.
-                  // This would continue to happen until a game is won or you bust.
+var skip7 = 2;    // after fifteenth loss
 // ------------
 var bet = baseBet * 100;
 var cashOut = 1.11;
