@@ -38,13 +38,7 @@ engine.on('game_starting', function(info) {
             if (lostGames == 5) {skip = skip3;}
             if (lostGames == 6) {skip = skip4;}
             if (lostGames == 7) {skip = skip5;}
-            if (lostGames == 8) {skip = skip6;}
-            if (lostGames == 9) {skip = skip6;}
-            if (lostGames == 10) {skip = skip6;}
-            if (lostGames == 11) {skip = skip6;}
-            if (lostGames == 12) {skip = skip6;}
-            if (lostGames == 13) {skip = skip6;}
-            if (lostGames == 14) {skip = skip6;}
+            if (lostGames >= 8) {skip = skip6;}
             if (lostGames >= 15) {skip = skip7;}
         }
     } else {
