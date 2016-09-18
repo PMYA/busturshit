@@ -4,7 +4,7 @@ var baseBet = Math.round(5/0.13);;    // Set the base bet here. I recommend to s
 // -----------
 // Number of games skipped after X losses
 var skip1 = 0;    // after third loss
-var skip2 = 1;    // after fourth loss
+var skip2 = 2;    // after fourth loss
 var skip3 = 1;    // after fifth loss
 var skip4 = 3;    // after sixth loss
 var skip5 = 0;    // after seventh loss
