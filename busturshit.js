@@ -7,7 +7,8 @@ var skip2 = 1;    // after third loss
 var skip3 = 1;    // after fourth loss
 var skip4 = 1;    // after fifth loss
 var skip5 = 0;    // after sixth loss
-var skip6 = 1;    // skip X games afterwards. This means the script will bet once and then skip X games.
+var skip6 = 1;    // after eighth loss
+var skip7 = 2;    // skip X games afterwards. This means the script will bet once and then skip X games.
                   // This would continue to happen until a game is won or you bust.
 // ------------
 var bet = baseBet * 100;
@@ -37,7 +38,14 @@ engine.on('game_starting', function(info) {
             if (lostGames == 5) {skip = skip3;}
             if (lostGames == 6) {skip = skip4;}
             if (lostGames == 7) {skip = skip5;}
-            if (lostGames >= 8) {skip = skip6;}
+            if (lostGames == 8) {skip = skip6;}
+            if (lostGames == 9) {skip = skip6;}
+            if (lostGames == 10) {skip = skip6;}
+            if (lostGames == 11) {skip = skip6;}
+            if (lostGames == 12) {skip = skip6;}
+            if (lostGames == 13) {skip = skip6;}
+            if (lostGames == 14) {skip = skip6;}
+            if (lostGames >= 15) {skip = skip7;}
         }
     } else {
 		//if win
