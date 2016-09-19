@@ -1,19 +1,20 @@
-// CSS highlight usernames -----------
+// CSS highlight your friends -----------
 //create <style> in head
 var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = '';
-style.innerHTML += 'tr[data-reactid*="TechiusHF"],'; //comma
-style.innerHTML += 'tr[data-reactid*="sioncloudnine"],'; //comma
-style.innerHTML += 'tr[data-reactid*="pembo"],'; //comma
+style.innerHTML += 'tr[data-reactid*="TechiusHF"],';
+style.innerHTML += 'tr[data-reactid*="sioncloudnine"],';
+style.innerHTML += 'tr[data-reactid*="pembo"],';
 style.innerHTML += 'tr[data-reactid*="PMYA"],'; //comma
+style.innerHTML += 'tr[data-reactid*="jesuspiece2"],'; //comma
 style.innerHTML += 'tr[data-reactid*="Polsaker"]'; //no comma
-style.innerHTML += '{border: 3px solid #ff0000;}'; // red border around names
+style.innerHTML += '{border: 3px solid #ff0000;}';
 //insert css content into head <style>
 document.getElementsByTagName('head')[0].appendChild(style);
 
-// Betting starts here -----------
-var baseBet = Math.round(50/0.13);    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
+// --------------
+var baseBet = Math.round(10/0.13);    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
 // (50/0.13) bets 385
 // -----------
 // Number of games skipped after X losses
@@ -32,13 +33,16 @@ var currentBet = bet;
 var startBalance = engine.getBalance();
 var currentBalance = startBalance;
 //zero out
-var losses = 0;var skip = 0;var lostGames = 0;var waitXgames = 0;var CO = 0;var winStreak = 0;result = 'No results yet. ';
-var lossStreak = 0;
-console.log('%c----------Start!----------', 'color: green; font-weight:bold')
+var losses = 0;var skip = 0;var lostGames = 0;var waitXgames = 0;
+var CO = 0;var winStreak = 0;result = 'No results yet.. ';
+var lossStreak = 0;statsAllWins = 0;statsAllLosses = 0;
+
+//start
+console.log('%c----------Start!----------', 'color: green; font-weight:bold');
 engine.on('game_starting', function(info) {
     if (currentBet && engine.lastGamePlay() == 'LOST') {
 	  	//if loss
-	lossStreak++;
+			lossStreak++;
       lostGames++;
       winStreak = 0;
       currentBalance = engine.getBalance();
@@ -58,53 +62,85 @@ engine.on('game_starting', function(info) {
         if (lostGames >= 15) {skip = skip7;}
       }
     } else {
-    //if win
+	  	//if win
       currentBalance = engine.getBalance();
       if (currentBalance > startBalance) {
-	  winStreak++;
-		if (winStreak >= 2) {
-			currentBet *= 1.02; //bet increase per win round
-			cashOut *= 1.014; //cashout increase per win round
-		} else {
-			currentBet = bet; //reset betting after first win after loss(es)
-			cashOut = 1.11;
-		}
-		      startBalance = engine.getBalance();
-		      lostGames = 0;
-		      skip = 0;
-		//reset betting on 5 winStreak
-		if (winStreak % 5 === 0) {
-			console.log('%cFive wins', 'color: green; font-weight:bold')
-			console.log('%cBetting Reset', 'color: green; font-weight:bold')
-			currentBet = bet; //reset betting
-			cashOut = 1.11;	//reset cashOut
-		}
+			  winStreak++;
+				if (winStreak >= 2) {
+					currentBet *= 1.02; //bet increase per win round
+					cashOut *= 1.02; //cashout increase per win round
+				} else {
+					console.log('%cBetting Reset', 'color: green; font-weight:bold');
+					currentBet = bet; //reset betting after first win after loss(es)
+					cashOut = 1.11;
+				}
+	      startBalance = engine.getBalance();
+	      lostGames = 0;
+	      skip = 0;
+				//reset betting on 7 winStreak
+				if (winStreak % 7 === 0) {
+					console.log('%c7 wins', 'color: green; font-weight:bold');
+					console.log('%cBetting Reset', 'color: green; font-weight:bold');
+					currentBet = bet; //reset betting
+					cashOut = 1.11;	//reset cashOut
+				}
       }
     }
-    if (currentBet && engine.lastGamePlay() == 'WON') {
-        lossStreak = 0;
-    }
+
+		//win vs loss stuff
+
+		if (engine.lastGamePlay() == 'WON') {
+			lossStreak = 0;
+			statsAllWins++;
+			console.log('%cYou win', 'color: green; font-weight:bold');
+			console.log('', bitresult, 'bits');
+			//startBalance = engine.getProfit();
+
+			//console.log('Base bet is', statbet);
+
+		}
+		if (engine.lastGamePlay() == 'LOST') {
+			winStreak = 0;
+			statsAllLosses++;
+			console.log('%cYou lose', 'color: red; font-weight:bold');
+			//console.log('Base bet is', statbet);
+
+		}
+
+		//show stuff on console
+		console.log('---Stats---');
+		//tempStat1 = Math.round(statsAllWins + statsAllLosses);
+		//statsWinPercentage = parseFloat(statsAllWins / tempStat1);
+		console.log('W/L :: (', statsAllWins, '/', statsAllLosses, ')');
+		//console.log('', statsAllLosses);
+		if (winStreak > '1') {
+			console.log('Current win streak is', winStreak);
+		}
+		if (lossStreak > '1') {
+			console.log('Current loss streak is', lossStreak);
+		}
+		
+		//betting or chilling
     if (waitXgames >= skip) {
-			if (currentBet && engine.lastGamePlay() == 'WON') {
-				console.log('%cYou win', 'color: green; font-weight:bold')
-			}
-			if (currentBet && engine.lastGamePlay() == 'LOST') {
-				console.log('%cYou lose', 'color: red; font-weight:bold')
-			}
-			if (winStreak > '1') {
-				console.log('Current win streak is', winStreak)
-			}
-			if (lossStreak > '1') {
-				console.log('Current loss streak is', lossStreak)
-			}
+			//if betting this round
 			console.log('--------New Round--------')
 	    console.log('', Math.floor(currentBet / 100), 'bits bet at', Math.round(cashOut * 100) / 100, 'x');
 	    engine.placeBet(Math.floor(currentBet / 100) * 100, Math.floor(cashOut * 100), false);
     } else {
+			//skip round
 			console.log('--------New Round--------')
-			console.log('Cooling off. No bets this round.')
+			console.log('Cooling off. No bets this round.');
 			winStreak = 0;
-	}
+  	}
+
+		////stats n stuff
+
+		statsCurrentBet = Math.floor(currentBet / 100);
+		statsCashOut = Math.round(cashOut * 100) / 100;
+		//
+		bitresult = Math.floor((statsCurrentBet * statsCashOut) - statsCurrentBet);
+		statbet = Math.floor(bet / 100);
+
 });
 
 //detect Busted
