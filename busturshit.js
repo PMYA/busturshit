@@ -89,6 +89,7 @@ engine.on('game_starting', function(info) {
     } else {
 		console.log('--------New Round--------')
 		console.log('Cooling off. No bets this round.')
+		console.log('Current loss streak is', lossStreak)
 		winStreak = 0;
 	}
 });
