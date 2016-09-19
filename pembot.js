@@ -1,4 +1,18 @@
-// -----------
+// CSS highlight usernames -----------
+//create <style> in head
+var style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = '';
+style.innerHTML += 'tr[data-reactid*="TechiusHF"],'; //comma
+style.innerHTML += 'tr[data-reactid*="sioncloudnine"],'; //comma
+style.innerHTML += 'tr[data-reactid*="pembo"],'; //comma
+style.innerHTML += 'tr[data-reactid*="PMYA"],'; //comma
+style.innerHTML += 'tr[data-reactid*="Polsaker"]'; //no comma
+style.innerHTML += '{border: 3px solid #ff0000;}'; // red border around names
+//insert css content into head <style>
+document.getElementsByTagName('head')[0].appendChild(style);
+
+// Betting starts here -----------
 var baseBet = Math.round(50/0.13);    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
 // (50/0.13) bets 385
 // -----------
