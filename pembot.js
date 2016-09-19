@@ -79,8 +79,8 @@ engine.on('game_starting', function(info) {
 	      skip = 0;
 				//reset betting on 7 winStreak
 				if (winStreak % 7 === 0) {
-					//console.log('%cSeven win streak', 'color: green; font-weight:bold');
-					//console.log('%cBetting Reset', 'color: green; font-weight:bold');
+					console.log('%cSeven win streak', 'color: green; font-weight:bold');
+					console.log('%cBetting Reset', 'color: green; font-weight:bold');
 					currentBet = bet; //reset betting
 					cashOut = 1.11;	//reset cashOut
 				}
@@ -119,10 +119,7 @@ engine.on('game_starting', function(info) {
 		if (lossStreak > '1') {
 			console.log('Current loss streak is', lossStreak);
 		}
-		if (winStreak % 7 === 0) {
-			console.log('%cSeven win streak', 'color: green; font-weight:bold');
-			console.log('%cBetting Reset', 'color: green; font-weight:bold');
-		}
+
 		//betting or chilling
     if (waitXgames >= skip) {
 			//if betting this round
