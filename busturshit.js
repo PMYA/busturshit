@@ -28,8 +28,8 @@ engine.on('game_starting', function(info) {
         currentBalance = engine.getBalance();
         losses = startBalance - currentBalance;
 
-        currentBet *= 1.18; //bet increase per loss round
-        cashOut = (losses / currentBet) + 1.14; //cashout multiplier increase per loss round
+        currentBet *= 1.5; //bet increase per loss round
+        cashOut = (losses / currentBet) + 0.90; //cashout multiplier increase per loss round
 
         if (lostGames >= 1) {
             waitXgames = 0;
