@@ -14,7 +14,7 @@ style.innerHTML += '{border: 3px solid #ff0000;}';
 document.getElementsByTagName('head')[0].appendChild(style);
 
 // --------------
-var baseBet = Math.round(10/0.13);    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
+var baseBet = Math.round(80/0.13);    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
 // (50/0.13) bets 385
 // -----------
 // Number of games skipped after X losses
@@ -79,8 +79,8 @@ engine.on('game_starting', function(info) {
 	      skip = 0;
 				//reset betting on 7 winStreak
 				if (winStreak % 7 === 0) {
-					console.log('%c7 wins', 'color: green; font-weight:bold');
-					console.log('%cBetting Reset', 'color: green; font-weight:bold');
+					//console.log('%cSeven win streak', 'color: green; font-weight:bold');
+					//console.log('%cBetting Reset', 'color: green; font-weight:bold');
 					currentBet = bet; //reset betting
 					cashOut = 1.11;	//reset cashOut
 				}
@@ -92,8 +92,8 @@ engine.on('game_starting', function(info) {
 		if (engine.lastGamePlay() == 'WON') {
 			lossStreak = 0;
 			statsAllWins++;
-			console.log('%cYou win', 'color: green; font-weight:bold');
-			console.log('', bitresult, 'bits');
+			console.log('%cYou win', 'color: green; font-weight:bold', bitresult, 'bits'); //estimate without +bonus%
+			//console.log('', bitresult, 'bits'); //estimate without bonus%
 			//startBalance = engine.getProfit();
 
 			//console.log('Base bet is', statbet);
@@ -119,7 +119,10 @@ engine.on('game_starting', function(info) {
 		if (lossStreak > '1') {
 			console.log('Current loss streak is', lossStreak);
 		}
-		
+		if (winStreak % 7 === 0) {
+			console.log('%cSeven win streak', 'color: green; font-weight:bold');
+			console.log('%cBetting Reset', 'color: green; font-weight:bold');
+		}
 		//betting or chilling
     if (waitXgames >= skip) {
 			//if betting this round
