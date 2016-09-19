@@ -42,9 +42,9 @@ engine.on('game_starting', function(info) {
             if (lostGames >= 15) {skip = skip7;}
         }
     } else {
-		//if win
-        currentBalance = engine.getBalance();
-        if (currentBalance > startBalance) {
+	//if win
+	currentBalance = engine.getBalance();
+	if (currentBalance > startBalance) {
 			winStreak++;
 			if (winStreak >= 2) {
 				currentBet *= 1.02; //bet increase per win round
@@ -53,9 +53,16 @@ engine.on('game_starting', function(info) {
 				currentBet = bet; //reset betting after first win after loss(es)
 				cashOut = 1.11;
 			}
-            startBalance = engine.getBalance();
-            lostGames = 0;
-            skip = 0;
+	    startBalance = engine.getBalance();
+	    lostGames = 0;
+	    skip = 0;
+    	//reset betting on 5 winStreak
+	if (winStreak % 5 === 0) {
+		console.log('%cFive wins', 'color: green; font-weight:bold')
+		console.log('%cBetting Reset', 'color: green; font-weight:bold')
+		currentBet = bet; //reset betting
+		cashOut = 1.11;	//reset cashOut
+	}
         }
     }
 
