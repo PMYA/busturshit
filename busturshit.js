@@ -48,7 +48,11 @@ engine.on('game_starting', function(info) {
                 winStreak++;
                 if (winStreak >= 2) {
                     currentBet *= 1.02; //bet increase per win round
-                    cashOut *= 1.014; //cashout increase per win round
+                    if(cashOut>1.23){
+                        cashOut=1.23;
+                    }else{
+                        cashOut *= 1.014; //cashout increase per win round
+                    }
                 } else {
                     currentBet = bet; //reset betting after first win after loss(es)
                     cashOut = 1.11;
@@ -57,7 +61,7 @@ engine.on('game_starting', function(info) {
             lostGames = 0;
             skip = 0;
 
-            if(cashOut>1.23){cashOut=1.23;}
+            
         }
     }
 
