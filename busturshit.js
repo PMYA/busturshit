@@ -19,10 +19,13 @@ var startBalance = engine.getBalance();
 var currentBalance = startBalance;
 //zero out
 var losses = 0;var skip = 0;var lostGames = 0;var waitXgames = 0;var CO = 0;var winStreak = 0;result = 'No results yet. ';
-			console.log('%c----------Game Start!----------', 'color: green; font-weight:bold')
+var lossStreak = 0;
+
+console.log('%c----------Game Start!----------', 'color: green; font-weight:bold')
 engine.on('game_starting', function(info) {
     if (currentBet && engine.lastGamePlay() == 'LOST') {
-		//if loss
+	//if loss
+        lossStreak++;
         lostGames++;
         winStreak = 0;
         currentBalance = engine.getBalance();
@@ -64,7 +67,9 @@ engine.on('game_starting', function(info) {
             
         }
     }
-
+    if (currentBet && engine.lastGamePlay() == 'WON') {
+	lossStreak = 0;
+    }
     if (waitXgames >= skip) {
 		if (currentBet && engine.lastGamePlay() == 'WON') {
 			console.log('%cYou win', 'color: green; font-weight:bold')
@@ -72,8 +77,11 @@ engine.on('game_starting', function(info) {
 		if (currentBet && engine.lastGamePlay() == 'LOST') {
 			console.log('%cYou lose', 'color: red; font-weight:bold')
 		}
-		if (winStreak == '1') {} else {
-			console.log('Current winstreak is', winStreak)
+		if (winStreak > '1') {
+			console.log('Current win streak is', winStreak)
+		}
+		if (lossStreak > '1') {
+			console.log('Current loss streak is', lossStreak)
 		}
 		console.log('--------New Round--------')
         console.log('', Math.floor(currentBet / 100), 'bits bet at', Math.round(cashOut * 100) / 100, 'x');
