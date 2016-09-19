@@ -1,9 +1,10 @@
-// CSS highlight your friends -----------
+// CSS highlight usernames -----------
 //create <style> in head
 var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = '';
 style.innerHTML += 'tr[data-reactid*="TechiusHF"],'; //comma
+style.innerHTML += 'tr[data-reactid*="jesuspiece2"],'; //comma
 style.innerHTML += 'tr[data-reactid*="sioncloudnine"],'; //comma
 style.innerHTML += 'tr[data-reactid*="pembo"],'; //comma
 style.innerHTML += 'tr[data-reactid*="PMYA"],'; //comma
