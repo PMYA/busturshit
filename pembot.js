@@ -19,11 +19,12 @@ var startBalance = engine.getBalance();
 var currentBalance = startBalance;
 //zero out
 var losses = 0;var skip = 0;var lostGames = 0;var waitXgames = 0;var CO = 0;var winStreak = 0;result = 'No results yet. ';
-
+var lossStreak = 0;
 console.log('%c----------Start!----------', 'color: green; font-weight:bold')
 engine.on('game_starting', function(info) {
     if (currentBet && engine.lastGamePlay() == 'LOST') {
 	  	//if loss
+	lossStreak++;
       lostGames++;
       winStreak = 0;
       currentBalance = engine.getBalance();
@@ -43,30 +44,32 @@ engine.on('game_starting', function(info) {
         if (lostGames >= 15) {skip = skip7;}
       }
     } else {
-	  	//if win
+    //if win
       currentBalance = engine.getBalance();
       if (currentBalance > startBalance) {
-			  winStreak++;
-				if (winStreak >= 2) {
-					currentBet *= 1.02; //bet increase per win round
-					cashOut *= 1.014; //cashout increase per win round
-				} else {
-					currentBet = bet; //reset betting after first win after loss(es)
-					cashOut = 1.11;
-				}
-	      startBalance = engine.getBalance();
-	      lostGames = 0;
-	      skip = 0;
-				//reset betting on 5 winStreak
-				if (winStreak % 5 === 0) {
-					console.log('%cFive wins', 'color: green; font-weight:bold')
-					console.log('%cBetting Reset', 'color: green; font-weight:bold')
-					currentBet = bet; //reset betting
-					cashOut = 1.11;	//reset cashOut
-				}
+	  winStreak++;
+		if (winStreak >= 2) {
+			currentBet *= 1.02; //bet increase per win round
+			cashOut *= 1.014; //cashout increase per win round
+		} else {
+			currentBet = bet; //reset betting after first win after loss(es)
+			cashOut = 1.11;
+		}
+		      startBalance = engine.getBalance();
+		      lostGames = 0;
+		      skip = 0;
+		//reset betting on 5 winStreak
+		if (winStreak % 5 === 0) {
+			console.log('%cFive wins', 'color: green; font-weight:bold')
+			console.log('%cBetting Reset', 'color: green; font-weight:bold')
+			currentBet = bet; //reset betting
+			cashOut = 1.11;	//reset cashOut
+		}
       }
     }
-
+    if (currentBet && engine.lastGamePlay() == 'WON') {
+        lossStreak = 0;
+    }
     if (waitXgames >= skip) {
 			if (currentBet && engine.lastGamePlay() == 'WON') {
 				console.log('%cYou win', 'color: green; font-weight:bold')
@@ -74,8 +77,11 @@ engine.on('game_starting', function(info) {
 			if (currentBet && engine.lastGamePlay() == 'LOST') {
 				console.log('%cYou lose', 'color: red; font-weight:bold')
 			}
-			if (winStreak == '1') {} else {
-				console.log('Current winstreak is', winStreak)
+			if (winStreak > '1') {
+				console.log('Current win streak is', winStreak)
+			}
+			if (lossStreak > '1') {
+				console.log('Current loss streak is', lossStreak)
 			}
 			console.log('--------New Round--------')
 	    console.log('', Math.floor(currentBet / 100), 'bits bet at', Math.round(cashOut * 100) / 100, 'x');
@@ -86,6 +92,8 @@ engine.on('game_starting', function(info) {
 			winStreak = 0;
 	}
 });
+
+//detect Busted
 engine.on('game_crash', function(data) {
     if (data.game_crash / 100 >= CO) {
         console.log('Game [Busted] at ' + (data.game_crash / 100) + 'x');
