@@ -47,11 +47,11 @@ engine.on('game_starting', function(info) {
         if (currentBalance > startBalance) {
                 winStreak++;
                 if (winStreak >= 2) {
-                    currentBet *= 1.02; //bet increase per win round
+                    cashOut *= 1.014; //cashout increase per win round
                     if(cashOut>1.23){
                         cashOut=1.23;
                     }else{
-                        cashOut *= 1.014; //cashout increase per win round
+                        currentBet *= 1.02; //bet increase per win round
                     }
                 } else {
                     currentBet = bet; //reset betting after first win after loss(es)
