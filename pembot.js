@@ -1,26 +1,27 @@
-// CSS highlight your friends -----------
+// CSS highlight usernames -----------
+var usersArray = ["TechiusHF","sioncloudnine","strelnikov","PMYA","jesuspiece4","jesuspiece2","Polsaker"];
+
 //create <style> in head
 var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = '';
-style.innerHTML += 'tr[data-reactid*="TechiusHF"],';
-style.innerHTML += 'tr[data-reactid*="sioncloudnine"],';
-style.innerHTML += 'tr[data-reactid*="pembo"],';
-style.innerHTML += 'tr[data-reactid*="PMYA"],'; //comma
-style.innerHTML += 'tr[data-reactid*="jesuspiece2"],'; //comma
-style.innerHTML += 'tr[data-reactid*="Polsaker"]'; //no comma
-style.innerHTML += '{border: 3px solid #ff0000;}';
-//insert css content into head <style>
+var arrayLength = usersArray.length;
+for (var i = 0; i < arrayLength; i++) {
+  style.innerHTML += 'tr[data-reactid*="';
+  style.innerHTML += usersArray[i];
+  style.innerHTML += '"],';
+}
+style.innerHTML += 'tr[data-reactid*="pembo"]{border: 3px solid #ff0000;}';
 document.getElementsByTagName('head')[0].appendChild(style);
-
 // --------------
-var baseBet = Math.round(80/0.13);    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
+// --------------
+var baseBet = Math.round(200/0.13);    // base bet here.
 // (50/0.13) bets 385
 // -----------
 // Number of games skipped after X losses
 var skip1 = 0;    // after third loss
 var skip2 = 1;    // after fourth loss
-var skip3 = 1;    // after fifth loss
+var skip3 = 0;    // after fifth loss
 var skip4 = 1;    // after sixth loss
 var skip5 = 0;    // after seventh loss
 var skip6 = 0;    // after eighth loss
