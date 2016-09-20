@@ -1,5 +1,6 @@
 // Betting starts here -----------
-var baseBet = Math.round(5/0.13);;    // Set the base bet here. I recommend to set it to ~200 if you have 100k bits as start balance.
+
+var baseBet = Math.round(5/0.13); // Base bet.
 
 // -----------
 // Number of games skipped after X losses
@@ -17,15 +18,20 @@ var cashOut = 1.11;
 var currentBet = bet;
 var startBalance = engine.getBalance();
 var currentBalance = startBalance;
+
 //zero out
-var losses = 0;var skip = 0;var lostGames = 0;var waitXgames = 0;var CO = 0;var winStreak = 0;result = 'No results yet. ';
-var lossStreak = 0;
+var losses = 0, skip = 0, lostGames = 0, waitXgames = 0, CO = 0;
+var winStreak = 0, result = 'No results yet. ', lossStreak = 0;
+
+var statsAllWins = 0, statsAllLosses = 0;
 
 console.log('%c----------Game Start!----------', 'color: green; font-weight:bold')
+
 engine.on('game_starting', function(info) {
     if (currentBet && engine.lastGamePlay() == 'LOST') {
-	//if loss
+        //if loss
         lossStreak++;
+        statsAllLosses++;
         lostGames++;
         winStreak = 0;
         currentBalance = engine.getBalance();
@@ -44,54 +50,59 @@ engine.on('game_starting', function(info) {
             if (lostGames >= 8) {skip = skip6;}
             if (lostGames >= 15) {skip = skip7;}
         }
+        console.log('%cYou lose', 'color: red; font-weight:bold', bitresult, 'bits');
     } else {
         //if win
         currentBalance = engine.getBalance();
         if (currentBalance > startBalance) {
-                winStreak++;
-                if (winStreak >= 2) {
-                    cashOut *= 1.014; //cashout increase per win round
-                    if(cashOut>1.23){
-                        cashOut=1.23;
-                    }else{
-                        currentBet *= 1.02; //bet increase per win round
-                    }
-                } else {
-                    currentBet = bet; //reset betting after first win after loss(es)
-                    cashOut = 1.11;
+            winStreak++;
+            if (winStreak >= 2) {
+                cashOut *= 1.014; //cashout increase per win round
+                if(cashOut>1.23){
+                    cashOut=1.23;
+                }else{
+                    currentBet *= 1.02; //bet increase per win round
                 }
+            } else {
+                currentBet = bet; //reset betting after first win after loss(es)
+                cashOut = 1.11;
+            }
+            
             startBalance = engine.getBalance();
             lostGames = 0;
             skip = 0;
-
             
+            lossStreak = 0;
+            statsAllWins++;
+            console.log('%cYou win', 'color: green; font-weight:bold', bitresult, 'bits');
         }
     }
-    if (currentBet && engine.lastGamePlay() == 'WON') {
-	lossStreak = 0;
-    }
+    
+    console.log('---Stats---');
+    console.log('W/L :: (', statsAllWins, '/', statsAllLosses, ')');
+
+    if (winStreak > '1') {
+ 		console.log('Current win streak is', winStreak);
+ 	}
+ 	if (lossStreak > '1') {
+ 		console.log('Current loss streak is', lossStreak);
+ 	}
+ 
+    console.log('--------New Round--------')
+
     if (waitXgames >= skip) {
-		if (currentBet && engine.lastGamePlay() == 'WON') {
-			console.log('%cYou win', 'color: green; font-weight:bold')
-		} 
-		if (currentBet && engine.lastGamePlay() == 'LOST') {
-			console.log('%cYou lose', 'color: red; font-weight:bold')
-		}
-		if (winStreak > '1') {
-			console.log('Current win streak is', winStreak)
-		}
-		if (lossStreak > '1') {
-			console.log('Current loss streak is', lossStreak)
-		}
-		console.log('--------New Round--------')
         console.log('', Math.floor(currentBet / 100), 'bits bet at', Math.round(cashOut * 100) / 100, 'x');
         engine.placeBet(Math.floor(currentBet / 100) * 100, Math.floor(cashOut * 100), false);
     } else {
-		console.log('--------New Round--------')
 		console.log('Cooling off. No bets this round.')
 		console.log('Current loss streak is', lossStreak)
-		winStreak = 0;
 	}
+	statsCurrentBet = Math.floor(currentBet / 100);
+	statsCashOut = Math.round(cashOut * 100) / 100;
+	//
+	bitresult = Math.floor((statsCurrentBet * statsCashOut) - statsCurrentBet);
+	statbet = Math.floor(bet / 100);
+
 });
 engine.on('game_crash', function(data) {
     if (data.game_crash / 100 >= CO) {
