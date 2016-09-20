@@ -118,19 +118,18 @@ engine.on('game_crash', function(data) {
 
 
 // CSS highlight usernames -----------
+var usersArray = ["TechiusHF","sioncloudnine","strelnikov","PMYA","jesuspiece4","jesuspiece2","Polsaker"];
+
 //create <style> in head
 var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = '';
-style.innerHTML += 'tr[data-reactid*="TechiusHF"],'; //comma
-style.innerHTML += 'tr[data-reactid*="jesuspiece2"],'; //comma
-style.innerHTML += 'tr[data-reactid*="jesuspiece4"],'; //comma
-style.innerHTML += 'tr[data-reactid*="sioncloudnine"],'; //comma
-style.innerHTML += 'tr[data-reactid*="pembo"],'; //comma
-style.innerHTML += 'tr[data-reactid*="PMYA"],'; //comma
-style.innerHTML += 'tr[data-reactid*="Polsaker"],'; //comma
-style.innerHTML += 'tr[data-reactid*="Strelnikov"]'; //no comma
-style.innerHTML += '{border: 3px solid #ff0000;}'; // red border around names
-//insert css content into head <style>
+var arrayLength = usersArray.length;
+for (var i = 0; i < arrayLength; i++) {
+  style.innerHTML += 'tr[data-reactid*="';
+  style.innerHTML += usersArray[i];
+  style.innerHTML += '"],';
+}
+style.innerHTML += 'tr[data-reactid*="pembo"]{border: 3px solid #ff0000;}';
 document.getElementsByTagName('head')[0].appendChild(style);
 
