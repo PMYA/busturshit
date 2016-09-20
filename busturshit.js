@@ -118,7 +118,7 @@ engine.on('game_crash', function(data) {
 
 
 // CSS highlight usernames -----------
-var usersArray = ["TechiusHF","sioncloudnine","strelnikov","PMYA","jesuspiece4","jesuspiece2","Polsaker"];
+var usersArray = ["TechiusHF","sioncloudnine","strelnikov","PMYA","jesuspiece3","jesuspiece5","Polsaker"];
 
 //create <style> in head
 var style = document.createElement('style');
