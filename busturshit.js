@@ -15,6 +15,9 @@ var skip7 = 2;    // after fifteenth loss
 var bet = baseBet * 100;
 var cashOut = 1.11;
 
+var rapeBet = 1.5; // Bet we will do when we start losing
+// ---- End of configurable shit ----
+
 var currentBet = bet;
 var startBalance = engine.getBalance();
 var currentBalance = startBalance;
@@ -37,7 +40,7 @@ engine.on('game_starting', function(info) {
         currentBalance = engine.getBalance();
         losses = startBalance - currentBalance;
 
-        currentBet *= 1.5; //bet increase per loss round
+        currentBet *= rapeBet; //bet increase per loss round
         cashOut = (losses / currentBet) + 1.1; //cashout multiplier increase per loss round
 
         if (lostGames >= 1) {
